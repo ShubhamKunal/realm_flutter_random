@@ -8,7 +8,13 @@ import 'src/settings/settings_controller.dart';
 import 'src/settings/settings_service.dart';
 
 void main() async {
-  final realm = Realm(Configuration.local([SampleItem.schema]));
+  // "developer@hashkraft.com", "mongoHK@2023")
+  final app = App(AppConfiguration("listy-app-cgnrj"));
+  final user = app.currentUser ?? await app.logIn(Credentials.anonymous());
+  final realm = Realm(Configuration.flexibleSync(user, [SampleItem.schema]));
+  realm.subscriptions.update((mutableSubscriptions) {
+    mutableSubscriptions.add(realm.all<SampleItem>());
+  });
   final allItems = realm.all<SampleItem>();
   // Set up the SettingsController, which will glue user settings to multiple
   // Flutter Widgets.

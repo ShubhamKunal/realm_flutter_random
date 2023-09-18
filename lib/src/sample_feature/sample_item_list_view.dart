@@ -10,8 +10,8 @@ class Lister {
   final Realm _realm;
   Lister({required this.items}) : _realm = items.realm;
   void addNewItem() {
-    _realm.write(() => _realm
-        .add(SampleItem(1 + ((items.lastOrNull == null) ? 0 : items.last.id))));
+    _realm.write(() => _realm.add(SampleItem(
+        ObjectId(), 1 + ((items.lastOrNull == null) ? 0 : items.last.no))));
   }
 }
 
